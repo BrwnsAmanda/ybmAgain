@@ -1,0 +1,84 @@
+.page-container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+}
+
+/* Menyesuaikan gambar background */
+.about-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.about-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Heading lebih terbaca */
+h1 {
+  font-size: 3rem;
+  font-weight: bold;
+  color: white; /* Ganti putih agar kontras */
+  z-index: 2;
+  position: relative;
+  padding: 10px 20px;
+  border-radius: 10px;
+}
+
+/* Responsif untuk layar kecil */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2rem;
+    padding: 5px 10px;
+  }
+}
+
+/* Perbaikan navbar */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Sebar logo dan menu */
+  padding: 10px 20px;
+  background-color: white;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logo-img {
+  width: 40px;
+  height: auto;
+}
+
+.logo-text {
+  font-size: 1.2rem;
+  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.blue-bold {
+  color: #004993;
+}
+
+.orange-bold {
+  color: orange;
+}
