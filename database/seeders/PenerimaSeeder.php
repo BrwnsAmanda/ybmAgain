@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Faker\Factory as Faker;
 
 class PenerimaSeeder extends Seeder
 {
@@ -12,6 +14,24 @@ class PenerimaSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        $faker = Faker::create();
+
+        DB::table('penerimas') -> insert ([
+            [
+                'nama' => $faker->name,
+                'nik' => '849282895019492',
+                'kategori' => 'Miskin',
+                'alamat' => $faker->address,
+                'no_telp' => $faker->phoneNumber,
+            ],
+
+            [
+                'nama' => $faker->name,
+                'nik' => '682420190950928',
+                'kategori' => 'Amil',
+                'alamat' => $faker->address,
+                'no_telp' => $faker->phoneNumber,
+            ]
+        ]);
     }
 }

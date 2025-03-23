@@ -1,12 +1,17 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PenerimaController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', function () {
     return Inertia::render('Landing/Landing');
+});
+
+Route::get('/lala', function(){
+    return Inertia::render('PenerimaList/PenerimaList');
 });
 
 
@@ -37,6 +42,13 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::prefix('/penerima')->group(function(){
+    Route::get('/', [PenerimaController::class, 'index']);
+    Route::get('/{id}', [PenerimaController::class, 'show']);
+    Route::post('/create', [PenerimaController::class, 'store']);
+    Route::put('/{id}', [PenerimaController::class, 'update']);
+    Route::delete('/{id}', [PenerimaController::class, 'destroy']);
+});
 
 
 require __DIR__.'/auth.php';
