@@ -16,22 +16,14 @@ class PenerimaSeeder extends Seeder
     {
         $faker = Faker::create();
 
-        DB::table('penerimas') -> insert ([
-            [
-                'nama' => $faker->name,
-                'nik' => '849282895019492',
-                'kategori' => 'Miskin',
-                'alamat' => $faker->address,
-                'no_telp' => $faker->phoneNumber,
-            ],
-
-            [
-                'nama' => $faker->name,
-                'nik' => '682420190950928',
-                'kategori' => 'Amil',
-                'alamat' => $faker->address,
-                'no_telp' => $faker->phoneNumber,
-            ]
-        ]);
+        for($i = 1; $i <= 20; $i++){
+            DB::table('penerimas') -> insert ([
+                    'nama' => $faker -> name,
+                    'nik' => $faker -> numerify('###########'),
+                    'kategori' => $faker -> randomElement(['Pendidikan', 'Ekonomi', 'Dakwah', 'Sosial Kemanusiaan', 'Kesehatan']),
+                    'alamat' => $faker -> address,
+                    'no_telp' => $faker -> phoneNumber
+                ]);
+        }
     }
 }

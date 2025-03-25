@@ -11,9 +11,14 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class PenerimaController extends Controller
 {
-    public function index() {
-        $penerima = Penerima::all(); // Ambil semua data penerima dari database
-    return Inertia::render('PenerimaList', ['penerimaData' => $penerima]);
+    public function index()
+    {
+        $penerima = Penerima::all(); // Ambil semua data dari database
+
+        return Inertia::render('PenerimaList/PenerimaList', [ // Pastikan nama view sesuai dengan file di frontend
+            'penerima' => $penerima,
+        ]);
+
     }
 
     /*public function index()

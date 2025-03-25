@@ -11,9 +11,11 @@ use Illuminate\Support\Facades\Validator;
 class DonaturController extends Controller
 {
     public function index(){
-        $donatur = Donatur::all();
+        $donatur = Donatur::all(); // Ambil semua data dari database
 
-        return response()->json($donatur);
+        return Inertia::render('PenerimaList/PenerimaList', [ // Pastikan nama view sesuai dengan file di frontend
+            'donatur' => $donatur,
+        ]);
     }
 
     public function show($id){
