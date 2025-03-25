@@ -17,7 +17,7 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
 
         $middleware->validateCsrfTokens(except: [
-            '/penerima/*'
+            '/penerima/*', '/donatur/*'
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

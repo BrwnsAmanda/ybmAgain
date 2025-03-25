@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PenerimaController;
+use App\Http\Controllers\DonaturController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -14,27 +15,13 @@ Route::get('/lala', function(){
     return Inertia::render('PenerimaList/PenerimaList');
 });
 
-
 Route::get('/about', function () {
-    return Inertia::render('About/About'); // Pastikan nama halaman sesuai dengan file About.jsx
+    return Inertia::render('About/About');
 });
 
 Route::get('/login', function () {
-    return Inertia::render('Login/Login'); // Pastikan ada file Login.jsx di dalam Pages
+    return Inertia::render('Login/Login');
 });
-
-Route::get('/laravel', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
-
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -50,5 +37,16 @@ Route::prefix('/penerima')->group(function(){
     Route::delete('/{id}', [PenerimaController::class, 'destroy']);
 });
 
+Route::prefix('/donatur')->group(function(){
+    Route::get('/', [DonaturController::class, 'index']);
+    Route::get('/{id}', [DonaturController::class, 'show']);
+    Route::post('/create', [DonaturController::class, 'store']);
+    Route::put('/{id}', [DonaturController::class, 'update']);
+    Route::delete('/{id}', [DonaturController::class, 'destroy']);
+});
+
+/*Route::prefix('/pendidikan')->group(function(){
+    Route::prefix('/')
+})*/
 
 require __DIR__.'/auth.php';

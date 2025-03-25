@@ -12,19 +12,19 @@ class DonaturSeeder extends Seeder
     /**
      * Run the database seeds.
      */
-    /*public function run(): void
+    public function run(): void
     {
         $faker = Faker::create();
 
-        DB::table('donaturs') -> inserte ([
-            [
-                'nama' => $faker -> name,
-                'nik' => '48984298429892',
-                'jabatan' =>
-                'kategori'
-                'alamat'
-                'no_telp'
-            ]
-        ])
-    }*/
+        for($i = 1; $i <= 20; $i++){
+            DB::table('donaturs') -> insert ([
+                    'nama' => $faker -> name,
+                    'nik' => $faker -> numerify('###########'),
+                    'jabatan' => $faker -> jobTitle,
+                    'kategori' => $faker -> randomElement(['Pendidikan', 'Ekonomi', 'Dakwah', 'Sosial Kemanusiaan', 'Kesehatan']),
+                    'alamat' => $faker -> address,
+                    'no_telp' => $faker -> phoneNumber
+                ]);
+        }
+    }
 }

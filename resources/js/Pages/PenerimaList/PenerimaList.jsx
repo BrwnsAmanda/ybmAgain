@@ -1,14 +1,21 @@
 import React, { useState } from "react";
-import { router } from "@inertiajs/react";
+import { useForm } from "@inertiajs/react";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
-import DescriptionIcon from "@mui/icons-material/Description";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import "./PenerimaList.css";
 
-const PenerimaList = ({ penerimaData }) => {
+const PenerimaList = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+
+  const penerimaData = [
+    { no: 1, nik: "3201010101010001", nama: "Ahmad Rafi", alamat: "Jl. Merdeka No. 10", kategori: "Pendidikan", telepon: "081234567890" },
+    { no: 2, nik: "3201010101010002", nama: "Budi Santoso", alamat: "Jl. Mawar No. 5", kategori: "Ekonomi", telepon: "081298765432" },
+    { no: 3, nik: "3201010101010003", nama: "Citra Lestari", alamat: "Jl. Melati No. 12", kategori: "Dakwah", telepon: "081312345678" },
+    { no: 4, nik: "3201010101010004", nama: "Dewi Ayu", alamat: "Jl. Kenanga No. 8", kategori: "Sosial Kemanusiaan", telepon: "081356789012" },
+    { no: 5, nik: "3201010101010005", nama: "Eko Saputra", alamat: "Jl. Cempaka No. 3", kategori: "Kesehatan", telepon: "081378901234" },
+  ];
 
   return (
     <div className="container-list">
@@ -57,9 +64,7 @@ const PenerimaList = ({ penerimaData }) => {
 
           <div className="button-group">
             <button className="btn btn-download">Download</button>
-            <button className="btn btn-add" onClick={() => router.visit("/tambah")}>
-              Tambah
-            </button>
+            <button className="btn btn-add" onClick={() => Inertia.visit("/tambah")}>Tambah</button>
           </div>
         </div>
 
@@ -67,6 +72,7 @@ const PenerimaList = ({ penerimaData }) => {
           <thead>
             <tr>
               <th>No</th>
+              <th>NIK</th>
               <th>Nama</th>
               <th>Alamat</th>
               <th>Kategori</th>
@@ -78,18 +84,16 @@ const PenerimaList = ({ penerimaData }) => {
             {penerimaData.map((penerima) => (
               <tr key={penerima.no}>
                 <td>{penerima.no}</td>
+                <td>{penerima.nik}</td>
                 <td>{penerima.nama}</td>
                 <td>{penerima.alamat}</td>
                 <td>{penerima.kategori}</td>
                 <td>{penerima.telepon}</td>
                 <td className="action-buttons">
-                  <button className="btn-action detail" onClick={() => router.visit(`/detail/${penerima.no}`)}>
-                    <DescriptionIcon />
-                  </button>
-                  <button className="btn-action edit" onClick={() => router.visit("/EditPenerima")}> 
+                  <button className="btn-action edit" onClick={() => Inertia.visit("/EditPenerima")}>
                     <EditIcon />
                   </button>
-                  <button className="btn-action delete" onClick={() => router.visit(`/hapus/${penerima.no}`)}>
+                  <button className="btn-action delete" onClick={() => Inertia.visit(`/hapus/${penerima.no}`)}>
                     <DeleteIcon />
                   </button>
                 </td>
