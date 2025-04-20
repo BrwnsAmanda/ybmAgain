@@ -5,6 +5,10 @@ body {
   box-sizing: border-box;
 }
 
+.main-content {
+    margin-top: 80px;
+}
+
 /* === About Section === */
 .about-container {
   display: flex;
