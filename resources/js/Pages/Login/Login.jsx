@@ -16,14 +16,12 @@ const Login = () => {
               <img src="/login_img.png" alt="Illustration" />
             </div>
             <div className="login-form">
-              <span className="blue-bold">YBM</span>
-              <span className="orange-bold">YBM</span>
               <h2 className="login-title">Selamat Datang!</h2>
               <p className="login-subtitle">
-                Silahkan Masukkan Username/Email dan Password Anda!
+                Silahkan Masukkan Email dan Password Anda!
               </p>
 
-              <label htmlFor="email">USERNAME/EMAIL</label>
+              <label htmlFor="email">EMAIL</label>
               <input type="text" id="email" placeholder="Masukkan email" />
 
               <label htmlFor="password">PASSWORD</label>
