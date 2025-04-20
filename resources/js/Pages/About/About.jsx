@@ -58,7 +58,7 @@ const About = () => {
             <img src="/ybmlogo.jpg" alt="YBM BRILiaN Logo" className="footer-logo" />
             <div className="footer-text">
               <h2>
-                <span className="blue-bold">YBM</span>
+                <span className="white-bold">YBM</span>
                 <span className="orange-bold"> BRILiaN </span>
                 <span className="orange-bold"> RO Makassar </span>
               </h2>

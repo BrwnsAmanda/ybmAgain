@@ -1,11 +1,17 @@
 .navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 2px 10px;
-  height: 40px;
-  z-index: 100;
-}
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 30px; /* Memberikan padding kanan dan kiri untuk memberi ruang pada isi navbar */
+    height: 70px;
+    z-index: 100;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.09); /* Menambahkan bayangan */
+    position: fixed; /* Membuat navbar tetap di atas saat scroll */
+    top: 0; /* Menempel di bagian atas */
+    left: 0; /* Menempel di sisi kiri */
+    width: 100%; /* Memastikan navbar lebarnya 100% */
+    background-color: #ffffff; /* Background putih agar navbar tetap jelas terlihat */
+  }
 
 .logo-container {
   display: flex;
@@ -18,12 +24,13 @@
 .logo{
   display: flex;
   align-items: center;
+  padding-left: 40px;
 }
 
 .logo img {
   width: 50px;
   height: auto;
-  margin-top: 20px;
+  margin-top: 0px;
 }
 
 .logo h1 {
@@ -31,13 +38,13 @@
     font-weight: bold;
     white-space: nowrap;
     line-height: 1.2;
-    margin-top: 30px;
+    margin-top: 0px;
 }
 .nav-links {
   list-style: none;
   display: flex;
   gap: 50px;
-  margin-top: 40px;
+  margin-top: 0px;
 }
 
 .nav-links li {
@@ -48,6 +55,10 @@
   color: #007bff;
   text-decoration: none;
   font-weight: bold;
+}
+
+.login-button {
+    padding-right: 40px;
 }
 
 .login-button button {
@@ -63,7 +74,7 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  margin-top: 20px;
+  margin-top: 0px;
 }
 .nav-links a:hover {
   color: #ffa500; /* Warna berubah menjadi oranye saat hover */

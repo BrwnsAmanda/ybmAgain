@@ -3,6 +3,7 @@
   height: 100vh;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 .content {
@@ -13,6 +14,7 @@
   justify-content: center;
   text-align: center;
   padding: 20px;
+  overflow: hidden;
 }
 
 /* Menyesuaikan gambar background */
