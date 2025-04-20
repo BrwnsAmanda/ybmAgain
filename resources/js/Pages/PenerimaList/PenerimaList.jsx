@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import { usePage, router } from "@inertiajs/react";
+import { router, usePage } from "@inertiajs/react";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
-import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import { useState } from "react";
 import "./PenerimaList.css";
 
 const PenerimaList = () => {

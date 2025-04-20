@@ -9,13 +9,18 @@ Route::get('/', function () {
     return Inertia::render('Landing/Landing');
 });
 
-
 Route::get('/about', function () {
     return Inertia::render('About/About'); // Pastikan nama halaman sesuai dengan file About.jsx
 });
 
 Route::get('/login', function () {
     return Inertia::render('Login/Login'); // Pastikan ada file Login.jsx di dalam Pages
+});
+
+Route::prefix('/penerima-list')->group(function(){
+    Route::get('/', function() {
+        return Inertia::render('PenerimaList/PenerimaList');
+    });
 });
 
 Route::get('/laravel', function () {
