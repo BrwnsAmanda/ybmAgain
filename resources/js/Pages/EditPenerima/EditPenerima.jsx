@@ -1,45 +1,43 @@
 import React, { useState, useEffect } from "react";
-import { router, useForm } from "@inertiajs/react";
+import { router } from "@inertiajs/react";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import "./EditPenerima.css";
 
 const EditPenerima = ({ penerima }) => {
+  const [formData, setFormData] = useState({
+    nama: penerima?.nama || "",
+    telepon: penerima?.no_telp || "",
+    alamat: penerima?.alamat || "",
+    nik: penerima?.nik || "",
+    kategori: penerima?.kategori || "Fakir",
+  });
+
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
 
-  const { data, setData, put } = useForm({
-    nama: penerima?.nama || "",
-    telepon: penerima?.telepon || "",
-    alamat: penerima?.alamat || "",
-    email: penerima?.email || "",
-    nik: penerima?.nik || "",
-    kategori: penerima?.kategori || "Fakir",
-    pekerjaan: penerima?.pekerjaan || "",
-    penghasilan: penerima?.penghasilan || "",
-  });
-
   const handleChange = (e) => {
-    setData(e.target.name, e.target.value);
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    put(route("penerima.update", penerima.id), {
+    
+    router.put(`/penerima-list/edit/${penerima.id}`, formData, {
       onSuccess: () => {
-        alert("Data berhasil diperbarui!");
-        router.visit(route("penerima.index"));
+        alert("Data penerima berhasil diperbarui!");
+        router.visit("/penerima-list"); // Redirect ke halaman daftar
       },
       onError: (errors) => {
-        console.error(errors);
-      },
+        console.error("Gagal memperbarui:", errors);
+      }
     });
   };
 
   return (
     <div className="container-list">
-      <div className="sidebar">
+      <aside className="sidebar-list">
         <h3>YBM BRILiaN RO Makassar</h3>
-        <div className="position">Supervisor</div>
+        <p className="position">Supervisor</p>
         <nav>
           <ul>
             <li>Dashboard</li>
@@ -59,7 +57,7 @@ const EditPenerima = ({ penerima }) => {
             <li>Data Donatur</li>
           </ul>
         </nav>
-      </div>
+      </aside>
 
       <div className="content-list">
         <div className="header-list">
@@ -76,31 +74,63 @@ const EditPenerima = ({ penerima }) => {
 
         <div className="content-edit">
           <div className="edit-form-container">
+            <button
+              type="button"
+              className="btn-kembali"
+              onClick={() => router.visit('/penerima-list')}
+            >
+              ← Kembali
+            </button>
+
             <h2>Edit Data</h2>
             <form className="edit-form" onSubmit={handleSubmit}>
               <div className="form-group">
                 <label>Nama Lengkap</label>
-                <input type="text" name="nama" value={data.nama} onChange={handleChange} />
+                <input
+                  type="text"
+                  name="nama"
+                  value={formData.nama}
+                  onChange={handleChange}
+                />
               </div>
 
               <div className="form-group">
-                <label>Telepon</label>
-                <input type="text" name="telepon" value={data.telepon} onChange={handleChange} />
+                <label>No Telepon</label>
+                <input
+                  type="text"
+                  name="no_telp"
+                  value={formData.telepon}
+                  onChange={handleChange}
+                />
               </div>
 
               <div className="form-group">
                 <label>Alamat</label>
-                <input type="text" name="alamat" value={data.alamat} onChange={handleChange} />
+                <input
+                  type="text"
+                  name="alamat"
+                  value={formData.alamat}
+                  onChange={handleChange}
+                />
               </div>
 
               <div className="form-group">
                 <label>NIK</label>
-                <input type="text" name="nik" value={data.nik} onChange={handleChange} />
+                <input
+                  type="text"
+                  name="nik"
+                  value={formData.nik}
+                  onChange={handleChange}
+                />
               </div>
 
               <div className="form-group">
                 <label>Kategori</label>
-                <select name="kategori" value={data.kategori} onChange={handleChange}>
+                <select
+                  name="kategori"
+                  value={formData.kategori}
+                  onChange={handleChange}
+                >
                   <option value="Fakir">Fakir</option>
                   <option value="Miskin">Miskin</option>
                   <option value="Amil">Amil</option>
@@ -112,21 +142,10 @@ const EditPenerima = ({ penerima }) => {
                 </select>
               </div>
 
-              <div className="form-group">
-                <label>Pekerjaan (Opsional)</label>
-                <input type="text" name="pekerjaan" value={data.pekerjaan} onChange={handleChange} />
-              </div>
-
-              <div className="form-group">
-                <label>Penghasilan (Opsional)</label>
-                <input type="text" name="penghasilan" value={data.penghasilan} onChange={handleChange} />
-              </div>
-
-              <button type="submit">Simpan</button>
+              <button type="submit" className="btn-submit">Simpan</button>
             </form>
           </div>
         </div>
-
       </div>
     </div>
   );
