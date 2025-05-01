@@ -1,21 +1,17 @@
 import React, { useState } from "react";
-import { Inertia } from '@inertiajs/inertia';
-import "./TambahDonatur.css"; // opsional, buat styling
+import { router } from '@inertiajs/react';
+import "./TambahDonatur.css";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import Swal from "sweetalert2";
 
-const TambahPenerima = () => {
+const TambahDonatur = () => {
   const [formData, setFormData] = useState({
     nama: "",
     nik: "",
     alamat: "",
-    telepon: "",
-    email: "",
-    kategori: "Fakir",
-    pekerjaan: "",
-    penghasilan: "",
-    tanggungan: "",
-    bantuan: "",
-    keterangan: "",
+    no_telp: "",
+    jabatan:"",
+    kategori: "Pendidikan",
     tanggal_input: new Date().toISOString().split("T")[0],
   });
 
@@ -26,29 +22,37 @@ const TambahPenerima = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      // Ganti URL-nya nanti ke backend asli kamu
-      await fetch("https://jsonplaceholder.typicode.com/users", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-      alert("Data penerima berhasil ditambahkan!");
-      // Redirect using Inertia.js
-      Inertia.visit("/penerima"); // redirect ke list penerima
-    } catch (error) {
-      console.error("Gagal menambahkan data:", error);
-    }
+
+    router.post("/donatur-list/tambah", formData, {
+      onSuccess: () => {
+        Swal.fire({
+          title: 'Sukses!',
+          text: 'Data donatur berhasil ditambahkan.',
+          icon: 'success',
+          confirmButtonText: 'OK',
+          timer: 4000,
+          timerProgressBar: true,
+          showConfirmButton: false,
+          position: 'center'
+        }).then(() => {
+          router.visit("/donatur-list");
+        });
+      },
+      onError: (errors) => {
+        console.error("Gagal menyimpan:", errors);
+      }
+    });
   };
+  
 
   return (
     <div className="container-list">
-      <div className="sidebar">
+      <aside className="sidebar-list">
         <h3>YBM BRILiaN RO Makassar</h3>
-        <div className="position">Supervisor</div>
-        <nav className="nav-2">
+        <p className="position">Supervisor</p>
+        <nav>
           <ul>
             <li>Dashboard</li>
             <li className="dropdown" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
@@ -67,7 +71,8 @@ const TambahPenerima = () => {
             <li>Data Donatur</li>
           </ul>
         </nav>
-      </div>
+      </aside>
+
 
       <div className="content-list">
         <div className="header-list">
@@ -82,8 +87,17 @@ const TambahPenerima = () => {
           </div>
         </div>
 
+
         <div className="form-container">
-          <h2>Tambah Penerima Zakat</h2>
+        <button
+            type="button"
+            className="btn-kembali"
+            onClick={() => router.visit('/donatur-list')}
+            >
+            ← Kembali
+        </button>
+
+          <h1>Tambah Donatur</h1>
           <form onSubmit={handleSubmit} className="penerima-form">
             <div className="form-group">
               <label>Nama Lengkap</label>
@@ -102,36 +116,23 @@ const TambahPenerima = () => {
 
             <div className="form-group">
               <label>No Telepon</label>
-              <input type="text" name="telepon" value={formData.telepon} onChange={handleChange} required />
+              <input type="text" name="no_telp" value={formData.telepon} onChange={handleChange} required />
             </div>
 
             <div className="form-group">
-              <label>Email</label>
-              <input type="email" name="email" value={formData.email} onChange={handleChange} />
+              <label>Jabatan</label>
+              <input type="text" name="jabatan" value={formData.jabatan} onChange={handleChange} required />
             </div>
 
             <div className="form-group">
-              <label>Kategori Penerima</label>
+              <label>Kategori</label>
               <select name="kategori" value={formData.kategori} onChange={handleChange}>
-                <option value="Fakir">Fakir</option>
-                <option value="Miskin">Miskin</option>
-                <option value="Amil">Amil</option>
-                <option value="Mualaf">Mualaf</option>
-                <option value="Riqab">Riqab</option>
-                <option value="Gharim">Gharim</option>
-                <option value="Fisabilillah">Fisabilillah</option>
-                <option value="Ibnu Sabil">Ibnu Sabil</option>
+                <option value="Fakir">Pendidikan</option>
+                <option value="Miskin">Ekonomi</option>
+                <option value="Amil">Sosial Kemanusiaan</option>
+                <option value="Mualaf">Dakwah</option>
+                <option value="Riqab">Kesehatan</option>
               </select>
-            </div>
-
-            <div className="form-group">
-              <label>Pekerjaan</label>
-              <input type="text" name="pekerjaan" value={formData.pekerjaan} onChange={handleChange} />
-            </div>
-
-            <div className="form-group">
-              <label>Jenis Bantuan yang Dibutuhkan</label>
-              <input type="text" name="bantuan" value={formData.bantuan} onChange={handleChange} />
             </div>
 
             <div className="form-group">
@@ -147,4 +148,4 @@ const TambahPenerima = () => {
   );
 };
 
-export default TambahPenerima;
+export default TambahDonatur;
