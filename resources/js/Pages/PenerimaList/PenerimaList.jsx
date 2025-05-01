@@ -10,10 +10,14 @@ const PenerimaList = () => {
   const [penerima, setPenerima] = useState(initialPenerima);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 7;
 
   const handleDelete = (id) => {
     if (window.confirm("Apakah Anda yakin ingin menghapus data ini?")) {
-      router.delete(`/penerima/${id}`, {
+      router.delete(`/penerima-list/${id}`, {
         preserveScroll: true,
         onSuccess: () => {
           setPenerima((prevPenerima) => prevPenerima.filter((item) => item.id !== id));
@@ -22,6 +26,24 @@ const PenerimaList = () => {
       });
     }
   };
+
+  const handlePageChange = (page) => {
+    if (page > 0 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
+
+  // Filter berdasarkan pencarian
+  const filteredData = penerima.filter((item) =>
+    item.nama.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item.nik.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item.alamat.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item.kategori.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item.no_telp.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+  const currentData = filteredData.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
   return (
     <div className="container-list">
@@ -43,8 +65,8 @@ const PenerimaList = () => {
                 <li>Kesehatan</li>
               </ul>
             )}
-            <li className="active">Data Penerima</li>
-            <li>Data Donatur</li>
+            <li onClick={() => router.get('/penerima-list')}>Data Penerima</li>
+            <li onClick={() => router.get('/donatur-list')}>Data Donatur</li>
           </ul>
         </nav>
       </aside>
@@ -65,12 +87,21 @@ const PenerimaList = () => {
         <section className="container-list">
           <div className="edit-search-container">
             <h2>Data Penerima</h2>
-            <input type="text" placeholder="Cari Data..." className="search-bar" />
+            <input
+              type="text"
+              placeholder="Cari Data..."
+              className="search-bar"
+              value={searchTerm}
+              onChange={(e) => {
+                setSearchTerm(e.target.value);
+                setCurrentPage(1);
+              }}
+            />
           </div>
 
           <div className="button-group">
             <button className="btn btn-download">Download</button>
-            <button className="btn btn-add" onClick={() => router.get("/tambah")}>Tambah</button>
+            <button className="btn btn-add" onClick={() => router.get("/penerima-list/tambah")}>Tambah</button>
           </div>
         </section>
 
@@ -87,17 +118,17 @@ const PenerimaList = () => {
             </tr>
           </thead>
           <tbody>
-            {penerima.length > 0 ? (
-              penerima.map((item, index) => (
+            {currentData.length > 0 ? (
+              currentData.map((item, index) => (
                 <tr key={item.id}>
-                  <td>{index + 1}</td>
+                  <td>{(currentPage - 1) * itemsPerPage + index + 1}</td>
                   <td>{item.nik}</td>
                   <td>{item.nama}</td>
                   <td>{item.alamat}</td>
                   <td>{item.kategori}</td>
                   <td>{item.no_telp}</td>
                   <td className="action-buttons">
-                    <button className="btn-action edit" onClick={() => router.get(`/edit/${item.id}`)}>
+                    <button className="btn-action edit" onClick={() => router.get(`penerima-list/edit/${item.id}`)}>
                       <EditIcon />
                     </button>
                     <button className="btn-action delete" onClick={() => handleDelete(item.id)}>
@@ -115,11 +146,17 @@ const PenerimaList = () => {
         </table>
 
         <nav className="pagination">
-          <button className="btn-page">Sebelumnya</button>
-          <button className="btn-page active">1</button>
-          <button className="btn-page">2</button>
-          <button className="btn-page">3</button>
-          <button className="btn-page">Selanjutnya</button>
+          <button className="btn-page" onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>Sebelumnya</button>
+          {[...Array(totalPages).keys()].map((page) => (
+            <button
+              key={page}
+              className={`btn-page ${currentPage === page + 1 ? "active" : ""}`}
+              onClick={() => handlePageChange(page + 1)}
+            >
+              {page + 1}
+            </button>
+          ))}
+          <button className="btn-page" onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>Selanjutnya</button>
         </nav>
       </main>
     </div>

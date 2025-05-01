@@ -1,13 +1,55 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, Head } from "@inertiajs/react";
-import { router } from "@inertiajs/react"; // Import router untuk navigasi
+import axios from 'axios'; // Import axios
+import { router } from "@inertiajs/react";
 import "./Login.css";
 
 const Login = () => {
-  const handleLogin = () => {
-    // Setelah login, navigasikan ke halaman PenerimaList
-    router.visit("/penerima-list"); // Ganti dengan URL tujuan yang sesuai
-  };
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    if (!email || !password) {
+        setErrorMessage('Email dan Password wajib diisi.');
+        return;
+    }
+
+    try {
+        // Get the CSRF token from the meta tag
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+        // Make the login request with CSRF token
+        const response = await axios.post('/login', {
+            email,
+            password,
+        }, {
+            headers: {
+                'X-CSRF-TOKEN': csrfToken, // CSRF token in the header
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            }
+        });
+
+        if (response.status === 200) {
+            alert(response.data.message);
+            router.visit(route('penerima.index'));
+        }
+    } catch (error) {
+        if (error.response) {
+            console.error("Error Response:", error.response);
+            setErrorMessage(error.response.data.error || "Login gagal. Silakan coba lagi.");
+        } else {
+            console.error("Network Error:", error);
+            setErrorMessage("Terjadi kesalahan. Coba lagi.");
+        }
+    }
+};
+
+
+
 
   return (
     <>
@@ -28,12 +70,28 @@ const Login = () => {
               </p>
 
               <label htmlFor="email">EMAIL</label>
-              <input type="text" id="email" placeholder="Masukkan email" />
+              <input
+                type="text"
+                id="email"
+                placeholder="Masukkan email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
 
               <label htmlFor="password">PASSWORD</label>
-              <input type="password" id="password" placeholder="Masukkan password" />
+              <input
+                type="password"
+                id="password"
+                placeholder="Masukkan password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
 
-              <button className="login-page-button" onClick={handleLogin}>LOGIN</button>
+              {errorMessage && <div className="error-message">{errorMessage}</div>}
+
+              <button className="login-page-button" onClick={handleLogin}>
+                LOGIN
+              </button>
 
               <div className="forgot-password">
                 <Link href="/forgot-password">Forgot password?</Link>
