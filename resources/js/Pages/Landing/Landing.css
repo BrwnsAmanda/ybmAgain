@@ -17,11 +17,14 @@
   overflow: hidden;
 }
 
-/* Menyesuaikan gambar background */
 .about-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
 }
 
 .about-image img {
@@ -30,32 +33,71 @@
   object-fit: cover;
 }
 
-/* Heading lebih terbaca */
-h1 {
-  font-size: 3rem;
-  font-weight: bold;
-  color: white; /* Ganti putih agar kontras */
-  z-index: 2;
+.overlay {
   position: relative;
-  padding: 10px 20px;
-  border-radius: 10px;
+  z-index: 2;
+  color: white;
 }
 
-/* Responsif untuk layar kecil */
-@media (max-width: 768px) {
-  h1 {
-    font-size: 2rem;
-    padding: 5px 10px;
+/* Overlay gelap di atas gambar */
+.dark-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4); /* 0.4 bisa diganti sesuai gelap yang diinginkan */
+  z-index: 1;
+}
+
+.hero-title {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.hero-subtitle {
+  font-size: 1.5rem;
+  margin-top: 0;
+}
+
+/* Fade-in animation */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-/* Perbaikan navbar */
+.fade-in {
+  animation: fadeInUp 1.5s ease-out forwards;
+  opacity: 0;
+}
+
+/* Responsive Text */
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1.2rem;
+  }
+}
+
+/* Navbar styling (optional if already styled elsewhere) */
 .navbar {
   display: flex;
   align-items: center;
-  justify-content: space-between; /* Sebar logo dan menu */
+  justify-content: space-between;
   padding: 10px 20px;
   background-color: white;
+  z-index: 3;
+  position: relative;
 }
 
 .logo-container {
